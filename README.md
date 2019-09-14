@@ -1,0 +1,2 @@
+# toitoi
+Riichi mahjong library
