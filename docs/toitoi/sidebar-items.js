@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["score","Hand scoring."],["tile","Provides a tile type and associated functions."],["types","Shared public types."]]});
