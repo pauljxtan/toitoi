@@ -4,7 +4,7 @@
 
 [API docs](https://paultan.ca/toitoi/) | [Scoring demo](https://paultan.ca/toitoi-scorer-demo/)
 
-A [Riichi mahjong](https://en.wikipedia.org/wiki/Japanese_Mahjong) in Rust. Very WIP.
+A [Riichi mahjong](https://en.wikipedia.org/wiki/Japanese_Mahjong) library in Rust. Very WIP.
 
 For now, it handles most [hand scoring](https://en.wikipedia.org/wiki/Japanese_Mahjong_scoring_rules) use cases under standard rules. In addition to the tests included in this repo, the logic has also been tested on about a million [Tenhou](http://tenhou.net/) game logs, and seems to be accurate outside of super-edge cases.
 
