@@ -1,5 +1,6 @@
 //! A riichi mahjong library.
 
+pub mod player;
 pub mod score;
 pub mod tile;
 pub mod types;
