@@ -276,13 +276,17 @@ impl fmt::Display for HanReason {
 
 impl fmt::Display for Limit {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", match self {
-            Limit::NoLimit => "No limit",
-            Limit::Mangan => "Mangan",
-            Limit::Haneman => "Haneman",
-            Limit::Baiman => "Baiman",
-            Limit::Sanbaiman => "Sanbaiman",
-            Limit::Yakuman => "Yakuman"
-        })
+        write!(
+            f,
+            "{}",
+            match self {
+                Limit::NoLimit => "No limit",
+                Limit::Mangan => "Mangan",
+                Limit::Haneman => "Haneman",
+                Limit::Baiman => "Baiman",
+                Limit::Sanbaiman => "Sanbaiman",
+                Limit::Yakuman => "Yakuman",
+            }
+        )
     }
 }

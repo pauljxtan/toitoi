@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/score.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>score.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../toitoi/index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/score.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>score.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../toitoi/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -221,6 +221,8 @@
 <span id="221">221</span>
 <span id="222">222</span>
 <span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Hand scoring.</span>
 
@@ -263,10 +265,10 @@
     <span class="doccomment">/// The yaku or yakuman contributing to hand&#39;s total han.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">han_reasons</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">HanReason</span>, <span class="ident">u8</span>)<span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">han_reasons_yakuman</span>, <span class="ident">han_reasons_yaku</span>): (<span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">HanReason</span>, <span class="ident">u8</span>)<span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">HanReason</span>, <span class="ident">u8</span>)<span class="op">&gt;</span>) <span class="op">=</span>
-                                                      <span class="self">self</span>.<span class="ident">calc_result</span>.<span class="ident">han_reasons</span>.<span class="ident">iter</span>().<span class="ident">partition</span>(<span class="op">|</span>(<span class="ident">hr</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw">match</span> <span class="ident">hr</span> {
-                                                          <span class="ident">HanReason</span>::<span class="ident">Yakuman</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
-                                                          <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
-                                                      });
+            <span class="self">self</span>.<span class="ident">calc_result</span>.<span class="ident">han_reasons</span>.<span class="ident">iter</span>().<span class="ident">partition</span>(<span class="op">|</span>(<span class="ident">hr</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw">match</span> <span class="ident">hr</span> {
+                <span class="ident">HanReason</span>::<span class="ident">Yakuman</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+            });
         <span class="kw">if</span> <span class="ident">han_reasons_yakuman</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> {
             <span class="ident">han_reasons_yakuman</span>
         } <span class="kw">else</span> {
@@ -400,15 +402,14 @@
 <span class="doccomment">/// # Example</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```rust</span>
-<span class="doccomment">/// use toitoi::score::score;</span>
-<span class="doccomment">/// use toitoi::tile::{tile_from_string, tiles_from_string};</span>
-<span class="doccomment">/// use toitoi::types::{Call, FuReason, HandContext, HanReason, Limit, Points, Yaku};</span>
+<span class="doccomment">/// use toitoi::{</span>
+<span class="doccomment">///     score::score,</span>
+<span class="doccomment">///     tile::{tile_from_string, tiles_from_string},</span>
+<span class="doccomment">///     types::{Call, FuReason, HanReason, HandContext, Limit, Points, Yaku},</span>
+<span class="doccomment">/// };</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// let tiles = tiles_from_string(&quot;456m1122z&quot;);</span>
-<span class="doccomment">/// let calls = vec![</span>
-<span class="doccomment">///     Call::ankan(tile_from_string(&quot;1s&quot;)),</span>
-<span class="doccomment">///     Call::ankan(tile_from_string(&quot;7z&quot;)),</span>
-<span class="doccomment">/// ];</span>
+<span class="doccomment">/// let calls = vec![Call::ankan(tile_from_string(&quot;1s&quot;)), Call::ankan(tile_from_string(&quot;7z&quot;))];</span>
 <span class="doccomment">/// let context = HandContext {</span>
 <span class="doccomment">///     winning_tile: tile_from_string(&quot;1z&quot;),</span>
 <span class="doccomment">///     is_tsumo: false,</span>
@@ -426,16 +427,19 @@
 <span class="doccomment">/// assert_eq!(results[0].limit(), Limit::NoLimit);</span>
 <span class="doccomment">/// assert_eq!(results[0].points(), Points::Ron(3600));</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// assert_eq!(results[0].fu_reasons(), vec![</span>
-<span class="doccomment">///     (FuReason::Base, 20),</span>
-<span class="doccomment">///     (FuReason::OpenTripletHonours, 4),</span>
-<span class="doccomment">///     (FuReason::YakuhaiPairRoundWind, 2),</span>
-<span class="doccomment">///     (FuReason::YakuhaiPairPlayerWind, 2),</span>
-<span class="doccomment">///     (FuReason::ClosedQuadTerminals, 32),</span>
-<span class="doccomment">///     (FuReason::ClosedQuadHonours, 32),</span>
-<span class="doccomment">///     (FuReason::ClosedRon, 10),</span>
-<span class="doccomment">///     (FuReason::RoundUp, 8),</span>
-<span class="doccomment">/// ]);</span>
+<span class="doccomment">/// assert_eq!(</span>
+<span class="doccomment">///     results[0].fu_reasons(),</span>
+<span class="doccomment">///     vec![</span>
+<span class="doccomment">///         (FuReason::Base, 20),</span>
+<span class="doccomment">///         (FuReason::OpenTripletHonours, 4),</span>
+<span class="doccomment">///         (FuReason::YakuhaiPairRoundWind, 2),</span>
+<span class="doccomment">///         (FuReason::YakuhaiPairPlayerWind, 2),</span>
+<span class="doccomment">///         (FuReason::ClosedQuadTerminals, 32),</span>
+<span class="doccomment">///         (FuReason::ClosedQuadHonours, 32),</span>
+<span class="doccomment">///         (FuReason::ClosedRon, 10),</span>
+<span class="doccomment">///         (FuReason::RoundUp, 8),</span>
+<span class="doccomment">///     ]</span>
+<span class="doccomment">/// );</span>
 <span class="doccomment">/// assert_eq!(results[0].han_reasons(), vec![(HanReason::Yaku(Yaku::Chun), 1)]);</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">score</span>(<span class="ident">tiles</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Tile</span><span class="op">&gt;</span>, <span class="ident">calls</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Call</span><span class="op">&gt;</span>, <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="ident">HandContext</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ScoreResult</span><span class="op">&gt;</span> {

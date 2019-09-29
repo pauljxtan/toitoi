@@ -39,10 +39,10 @@ impl ScoreResult {
     /// The yaku or yakuman contributing to hand's total han.
     pub fn han_reasons(&self) -> Vec<(HanReason, u8)> {
         let (han_reasons_yakuman, han_reasons_yaku): (Vec<(HanReason, u8)>, Vec<(HanReason, u8)>) =
-                                                      self.calc_result.han_reasons.iter().partition(|(hr, _)| match hr {
-                                                          HanReason::Yakuman(_) => true,
-                                                          _ => false,
-                                                      });
+            self.calc_result.han_reasons.iter().partition(|(hr, _)| match hr {
+                HanReason::Yakuman(_) => true,
+                _ => false,
+            });
         if han_reasons_yakuman.len() > 0 {
             han_reasons_yakuman
         } else {
@@ -176,15 +176,14 @@ impl ScoreResult {
 /// # Example
 ///
 /// ```rust
-/// use toitoi::score::score;
-/// use toitoi::tile::{tile_from_string, tiles_from_string};
-/// use toitoi::types::{Call, FuReason, HandContext, HanReason, Limit, Points, Yaku};
+/// use toitoi::{
+///     score::score,
+///     tile::{tile_from_string, tiles_from_string},
+///     types::{Call, FuReason, HanReason, HandContext, Limit, Points, Yaku},
+/// };
 ///
 /// let tiles = tiles_from_string("456m1122z");
-/// let calls = vec![
-///     Call::ankan(tile_from_string("1s")),
-///     Call::ankan(tile_from_string("7z")),
-/// ];
+/// let calls = vec![Call::ankan(tile_from_string("1s")), Call::ankan(tile_from_string("7z"))];
 /// let context = HandContext {
 ///     winning_tile: tile_from_string("1z"),
 ///     is_tsumo: false,
@@ -202,16 +201,19 @@ impl ScoreResult {
 /// assert_eq!(results[0].limit(), Limit::NoLimit);
 /// assert_eq!(results[0].points(), Points::Ron(3600));
 ///
-/// assert_eq!(results[0].fu_reasons(), vec![
-///     (FuReason::Base, 20),
-///     (FuReason::OpenTripletHonours, 4),
-///     (FuReason::YakuhaiPairRoundWind, 2),
-///     (FuReason::YakuhaiPairPlayerWind, 2),
-///     (FuReason::ClosedQuadTerminals, 32),
-///     (FuReason::ClosedQuadHonours, 32),
-///     (FuReason::ClosedRon, 10),
-///     (FuReason::RoundUp, 8),
-/// ]);
+/// assert_eq!(
+///     results[0].fu_reasons(),
+///     vec![
+///         (FuReason::Base, 20),
+///         (FuReason::OpenTripletHonours, 4),
+///         (FuReason::YakuhaiPairRoundWind, 2),
+///         (FuReason::YakuhaiPairPlayerWind, 2),
+///         (FuReason::ClosedQuadTerminals, 32),
+///         (FuReason::ClosedQuadHonours, 32),
+///         (FuReason::ClosedRon, 10),
+///         (FuReason::RoundUp, 8),
+///     ]
+/// );
 /// assert_eq!(results[0].han_reasons(), vec![(HanReason::Yaku(Yaku::Chun), 1)]);
 /// ```
 pub fn score(tiles: &Vec<Tile>, calls: &Vec<Call>, context: &HandContext) -> Vec<ScoreResult> {

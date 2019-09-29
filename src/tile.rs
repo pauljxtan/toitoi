@@ -95,9 +95,9 @@ impl Default for Tile {
 ///
 /// ```rust
 /// use toitoi::tile::tile_from_string;
-/// 
+///
 /// let tile = tile_from_string("9m");
-/// 
+///
 /// assert!(tile.is_man());
 /// assert_eq!(tile.number(), 9);
 /// ```
@@ -123,9 +123,9 @@ pub fn tile_from_string(string: &str) -> Tile {
 ///
 /// ```rust
 /// use toitoi::tile::tiles_from_string;
-/// 
+///
 /// let tiles = tiles_from_string("12m34p56s17z");
-/// 
+///
 /// assert_eq!(tiles.len(), 8);
 ///
 /// assert!(tiles[0].is_man());
@@ -155,7 +155,9 @@ pub fn tiles_from_string(string: &str) -> Vec<Tile> {
 }
 
 /// Convert a tile to a Tenhou-stye string.
-pub(crate) fn tile_to_string(tile: &Tile) -> String { format!("{}{}", tile.number, tile.type_char()) }
+pub(crate) fn tile_to_string(tile: &Tile) -> String {
+    format!("{}{}", tile.number, tile.type_char())
+}
 
 /// Converts a list of tiles to a Tenhou-style string.
 pub(crate) fn tiles_to_string(tiles: &[Tile]) -> String {
@@ -176,7 +178,9 @@ pub(crate) fn tiles_to_string(tiles: &[Tile]) -> String {
 }
 
 /// Returns a list of all 34 unique tiles.
-pub(crate) fn all_tiles() -> Vec<Tile> { tiles_from_string("123456789m123456789p123456789s1234567z") }
+pub(crate) fn all_tiles() -> Vec<Tile> {
+    tiles_from_string("123456789m123456789p123456789s1234567z")
+}
 
 /// Returns a copy of `tiles` with the members of `tiles_to_remove` removed.
 pub(crate) fn with_tiles_removed(tiles: &[Tile], tiles_to_remove: &[Tile]) -> Vec<Tile> {

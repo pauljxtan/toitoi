@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["tile_from_string","Converts a Tenhou-style string to a tile."],["tiles_from_string","Converts a Tenhou-style string to a list of tiles."]],"struct":[["Tile","TODO: docstrings"]]});

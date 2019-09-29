@@ -17,13 +17,9 @@ impl Call {
 
     pub fn meld(&self) -> Meld {
         match self.ctype {
-            CallType::Chi => {
-                vec![self.tile, self.tile.next(), self.tile.next().next()]
-            }
+            CallType::Chi => vec![self.tile, self.tile.next(), self.tile.next().next()],
             CallType::Pon => vec![self.tile, self.tile, self.tile],
-            CallType::Minkan | CallType::Ankan => {
-                vec![self.tile, self.tile, self.tile, self.tile]
-            }
+            CallType::Minkan | CallType::Ankan => vec![self.tile, self.tile, self.tile, self.tile],
             _ => vec![],
         }
     }
@@ -39,9 +35,7 @@ fn all_sequences() -> Vec<Meld> {
         .collect()
 }
 
-fn all_triplets() -> Vec<Meld> {
-    all_tiles().into_iter().map(|t| vec![t, t, t]).collect()
-}
+fn all_triplets() -> Vec<Meld> { all_tiles().into_iter().map(|t| vec![t, t, t]).collect() }
 
 pub fn possible_melds(tiles: &[Tile]) -> Vec<Meld> {
     let mut possible_melds = possible_sequences(tiles);
