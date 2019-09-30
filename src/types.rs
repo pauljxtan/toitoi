@@ -4,7 +4,7 @@ use crate::tile::Tile;
 use std::fmt;
 
 /// Represents a call.
-#[derive(Debug)]
+#[derive(Debug, Eq, PartialEq)]
 pub struct Call {
     pub ctype: CallType,
     // First tile is enough to determine the rest
