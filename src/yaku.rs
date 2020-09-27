@@ -182,18 +182,18 @@ impl Checkable<Yakuman> for Yakuman {
 
 /// Finds all yaku in the given hand.
 pub fn yaku_in_hand(division: &Division, calls: &Vec<Call>, context: &HandContext) -> Vec<Yaku> {
-    _find_in_hand(&YAKU_TO_CHECK.to_vec(), division, calls, context)
+    _find_in_hand(&YAKU_TO_CHECK, division, calls, context)
 }
 
 /// Finds all yakuman in the given hand.
 pub fn yakuman_in_hand(
     division: &Division, calls: &Vec<Call>, context: &HandContext,
 ) -> Vec<Yakuman> {
-    _find_in_hand(&YAKUMAN_TO_CHECK.to_vec(), division, calls, context)
+    _find_in_hand(&YAKUMAN_TO_CHECK, division, calls, context)
 }
 
 pub fn _find_in_hand<T: Checkable<T> + Clone + PartialEq>(
-    to_check: &Vec<T>, division: &Division, calls: &Vec<Call>, context: &HandContext,
+    to_check: &[T], division: &Division, calls: &Vec<Call>, context: &HandContext,
 ) -> Vec<T> {
     let found: Vec<T> =
         to_check.iter().filter(|&y| y.check(division, calls, context)).cloned().collect();
