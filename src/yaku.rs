@@ -72,7 +72,6 @@ const YAKUMAN_TO_CHECK: [Yakuman; 12] = [
 
 impl Yaku {
     pub fn han_closed(&self) -> u8 { self.info().han_closed }
-
     pub fn han_open(&self) -> u8 { self.info().han_open }
 
     pub fn is_wind(&self) -> bool {
@@ -88,7 +87,6 @@ impl Yaku {
 
 impl Yakuman {
     pub fn han_closed(&self) -> u8 { self.info().han_closed }
-
     pub fn han_open(&self) -> u8 { self.info().han_open }
 
     fn make_info(
