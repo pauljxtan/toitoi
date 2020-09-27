@@ -79,7 +79,7 @@ const YAKUMAN_TO_CHECK: [Yakuman; 12] = [
 
 // TODO: Define lookup table w/ iterable keys?
 // Maybe try: https://docs.rs/phf/0.7.24/phf/
-//const YAKU_INFO_LOOKUP: HashMap<Yaku, YakuInfo> = [].iter().cloned().collect();
+// const YAKU_INFO_LOOKUP: HashMap<Yaku, YakuInfo> = [].iter().cloned().collect();
 
 impl Yaku {
     fn info(&self) -> YakuInfo {

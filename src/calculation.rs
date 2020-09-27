@@ -19,7 +19,7 @@ pub struct CalcResult {
     pub remaining: Vec<Tile>,
     pub fu_reasons: Vec<(FuReason, u8)>,
     pub han_reasons: Vec<(HanReason, u8)>,
-    //pub calls: Vec<Call>,
+    // pub calls: Vec<Call>,
 }
 
 /// Calculates fu and han for all winning hand configurations.
