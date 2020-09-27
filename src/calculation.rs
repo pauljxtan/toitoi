@@ -6,7 +6,7 @@ use crate::{
     meld::no_open_calls,
     tile::Tile,
     types::{Call, FuReason, HanReason, HandContext, Yaku, Yakuman},
-    yaku::{yaku_in_hand, yakuman_in_hand},
+    yaku::{yaku_in_hand, yakuman_in_hand, Checkable},
 };
 use itertools::{repeat_n, Itertools};
 
@@ -19,7 +19,6 @@ pub struct CalcResult {
     pub remaining: Vec<Tile>,
     pub fu_reasons: Vec<(FuReason, u8)>,
     pub han_reasons: Vec<(HanReason, u8)>,
-    //pub calls: Vec<Call>,
 }
 
 /// Calculates fu and han for all winning hand configurations.

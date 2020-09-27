@@ -12,18 +12,11 @@ use std::{collections::HashSet, iter::FromIterator};
 
 type CheckFunc = fn(&Division, &Vec<Call>, &HandContext) -> bool;
 
-struct YakuInfo {
+pub struct YakuInfo<T> {
     han_closed: u8,
     han_open: u8,
     check_func: CheckFunc,
-    supercedes: Vec<Yaku>,
-}
-
-struct YakumanInfo {
-    han_closed: u8,
-    han_open: u8,
-    check_func: CheckFunc,
-    supercedes: Vec<Yakuman>,
+    supercedes: Vec<T>,
 }
 
 // Excluding pinfu and doras
@@ -77,12 +70,13 @@ const YAKUMAN_TO_CHECK: [Yakuman; 12] = [
     Yakuman::Chiihou,
 ];
 
-// TODO: Define lookup table w/ iterable keys?
-// Maybe try: https://docs.rs/phf/0.7.24/phf/
-//const YAKU_INFO_LOOKUP: HashMap<Yaku, YakuInfo> = [].iter().cloned().collect();
+pub trait Checkable<T> {
+    fn info(&self) -> YakuInfo<T>;
+    fn check(&self, division: &Division, calls: &Vec<Call>, context: &HandContext) -> bool;
+}
 
-impl Yaku {
-    fn info(&self) -> YakuInfo {
+impl Checkable<Yaku> for Yaku {
+    fn info(&self) -> YakuInfo<Yaku> {
         match self {
             Yaku::MenzenTsumo => Yaku::make_info(1, 0, has_menzen_tsumo, vec![]),
             Yaku::Riichi => Yaku::make_info(1, 0, has_riichi, vec![]),
@@ -127,27 +121,12 @@ impl Yaku {
         }
     }
 
-    pub fn check(&self, division: &Division, calls: &Vec<Call>, context: &HandContext) -> bool {
+    fn check(&self, division: &Division, calls: &Vec<Call>, context: &HandContext) -> bool {
         (self.info().check_func)(division, calls, context)
     }
-
-    pub fn han_closed(&self) -> u8 { self.info().han_closed }
-
-    pub fn han_open(&self) -> u8 { self.info().han_open }
-
-    pub fn is_wind(&self) -> bool {
-        *self == Yaku::Ton || *self == Yaku::Nan || *self == Yaku::Sha || *self == Yaku::Pei
-    }
-
-    fn make_info(
-        han_closed: u8, han_open: u8, check_func: CheckFunc, supercedes: Vec<Yaku>,
-    ) -> YakuInfo {
-        YakuInfo { han_closed, han_open, check_func, supercedes }
-    }
 }
-
-impl Yakuman {
-    fn info(&self) -> YakumanInfo {
+impl Checkable<Yakuman> for Yakuman {
+    fn info(&self) -> YakuInfo<Yakuman> {
         match self {
             Yakuman::KokushiMusou => Yakuman::make_info(13, 13, has_kokushi, vec![]),
             Yakuman::Suuankou => Yakuman::make_info(13, 13, has_suuankou, vec![]),
@@ -167,40 +146,58 @@ impl Yakuman {
         }
     }
 
-    pub fn check(&self, division: &Division, calls: &Vec<Call>, context: &HandContext) -> bool {
+    fn check(&self, division: &Division, calls: &Vec<Call>, context: &HandContext) -> bool {
         (self.info().check_func)(division, calls, context)
     }
+}
 
+impl Yaku {
+    pub fn han_closed(&self) -> u8 { self.info().han_closed }
+
+    pub fn han_open(&self) -> u8 { self.info().han_open }
+
+    pub fn is_wind(&self) -> bool {
+        *self == Yaku::Ton || *self == Yaku::Nan || *self == Yaku::Sha || *self == Yaku::Pei
+    }
+
+    fn make_info(
+        han_closed: u8, han_open: u8, check_func: CheckFunc, supercedes: Vec<Yaku>,
+    ) -> YakuInfo<Yaku> {
+        YakuInfo::<Yaku> { han_closed, han_open, check_func, supercedes }
+    }
+}
+
+impl Yakuman {
     pub fn han_closed(&self) -> u8 { self.info().han_closed }
 
     pub fn han_open(&self) -> u8 { self.info().han_open }
 
     fn make_info(
         han_closed: u8, han_open: u8, check_func: CheckFunc, supercedes: Vec<Yakuman>,
-    ) -> YakumanInfo {
-        YakumanInfo { han_closed, han_open, check_func, supercedes }
+    ) -> YakuInfo<Yakuman> {
+        YakuInfo::<Yakuman> { han_closed, han_open, check_func, supercedes }
     }
 }
 
-// TODO: refactor common logic
-
 /// Finds all yaku in the given hand.
 pub fn yaku_in_hand(division: &Division, calls: &Vec<Call>, context: &HandContext) -> Vec<Yaku> {
-    let yaku: Vec<Yaku> =
-        YAKU_TO_CHECK.iter().filter(|&y| y.check(division, calls, context)).cloned().collect();
-    // E.g. ryanpeikou supercedes (subsumes) iipeikou, etc.
-    let superceded: Vec<Yaku> = yaku.iter().flat_map(|y| y.info().supercedes).collect();
-    yaku.into_iter().filter(|y| !superceded.contains(y)).collect()
+    _find_in_hand(&YAKU_TO_CHECK.to_vec(), division, calls, context)
 }
 
 /// Finds all yakuman in the given hand.
 pub fn yakuman_in_hand(
     division: &Division, calls: &Vec<Call>, context: &HandContext,
 ) -> Vec<Yakuman> {
-    let yakuman: Vec<Yakuman> =
-        YAKUMAN_TO_CHECK.iter().filter(|&y| y.check(division, calls, context)).cloned().collect();
-    let superceded: Vec<Yakuman> = yakuman.iter().flat_map(|y| y.info().supercedes).collect();
-    yakuman.into_iter().filter(|y| !superceded.contains(y)).collect()
+    _find_in_hand(&YAKUMAN_TO_CHECK.to_vec(), division, calls, context)
+}
+
+pub fn _find_in_hand<T: Checkable<T> + Clone + PartialEq>(
+    to_check: &Vec<T>, division: &Division, calls: &Vec<Call>, context: &HandContext,
+) -> Vec<T> {
+    let found: Vec<T> =
+        to_check.iter().filter(|&y| y.check(division, calls, context)).cloned().collect();
+    let superceded: Vec<T> = found.iter().flat_map(|y| y.info().supercedes).collect();
+    found.into_iter().filter(|y| !superceded.contains(y)).collect()
 }
 
 // Context-dependent (composition-independent) yaku
