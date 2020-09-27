@@ -199,7 +199,7 @@ pub(crate) fn with_tiles_removed(tiles: &[Tile], tiles_to_remove: &[Tile]) -> Ve
 
 /// Checks if `tiles` contains all tiles in `tiles_to_find`.
 pub(crate) fn has_tiles(tiles: &[Tile], tiles_to_find: &[Tile]) -> bool {
-    // let unique_tiles_to_find: Vec<Tile> = tiles_to_find.sorted().dedup();
+    //let unique_tiles_to_find: Vec<Tile> = tiles_to_find.sorted().dedup();
     for tile in tiles_to_find.iter().sorted().dedup() {
         let tiles_present = tiles.iter().filter(|&t| t == tile).count();
         let tiles_needed = tiles_to_find.iter().filter(|&t| t == tile).count();
