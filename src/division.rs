@@ -8,14 +8,14 @@ use crate::{
 use itertools::Itertools;
 
 #[derive(Clone, Debug, Eq, PartialEq, Ord, PartialOrd)]
-pub struct Division {
-    pub pair: Vec<Tile>,
-    pub melds: Vec<Meld>,
-    pub remaining: Vec<Tile>,
+pub(crate) struct Division {
+    pub(crate) pair: Vec<Tile>,
+    pub(crate) melds: Vec<Meld>,
+    pub(crate) remaining: Vec<Tile>,
 }
 
 impl Division {
-    pub fn waits(&self) -> Vec<Tile> {
+    pub(crate) fn waits(&self) -> Vec<Tile> {
         let mut waits = vec![];
 
         if self.pair.len() == 0 && self.remaining.len() == 1 {
@@ -39,7 +39,7 @@ impl Division {
         waits.into_iter().filter(|w| tiles.iter().filter(|t| *t == w).count() < 4).collect()
     }
 
-    pub fn is_tenpai(&self, n_calls: usize) -> bool {
+    pub(crate) fn is_tenpai(&self, n_calls: usize) -> bool {
         match self.pair.len() {
             // Tanki
             0 => (self.melds.len() + n_calls) == 4 && self.remaining.len() == 1,
@@ -49,7 +49,9 @@ impl Division {
         }
     }
 
-    pub fn wins_on(&self, winning_tile: &Tile) -> bool { self.waits().contains(winning_tile) }
+    pub(crate) fn wins_on(&self, winning_tile: &Tile) -> bool {
+        self.waits().contains(winning_tile)
+    }
 
     fn tiles(&self) -> Vec<Tile> {
         let mut tiles = self.pair.clone();
@@ -59,7 +61,7 @@ impl Division {
     }
 }
 
-pub fn divide(tiles: &Vec<Tile>) -> Vec<Division> {
+pub(crate) fn divide(tiles: &Vec<Tile>) -> Vec<Division> {
     let mut results: Vec<Division> = Vec::new();
 
     // Get all candidate pairs (including no pair for tanki)

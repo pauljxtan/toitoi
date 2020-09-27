@@ -12,17 +12,19 @@ use itertools::{repeat_n, Itertools};
 
 /// Stores calculation results.
 #[derive(Debug, Default, Eq, PartialEq, Ord, PartialOrd)]
-pub struct CalcResult {
-    pub winning_tile: Tile,
-    pub pair: Vec<Tile>,
-    pub melds: Vec<Vec<Tile>>,
-    pub remaining: Vec<Tile>,
-    pub fu_reasons: Vec<(FuReason, u8)>,
-    pub han_reasons: Vec<(HanReason, u8)>,
+pub(crate) struct CalcResult {
+    pub(crate) winning_tile: Tile,
+    pub(crate) pair: Vec<Tile>,
+    pub(crate) melds: Vec<Vec<Tile>>,
+    pub(crate) remaining: Vec<Tile>,
+    pub(crate) fu_reasons: Vec<(FuReason, u8)>,
+    pub(crate) han_reasons: Vec<(HanReason, u8)>,
 }
 
 /// Calculates fu and han for all winning hand configurations.
-pub fn calculate(tiles: &Vec<Tile>, calls: &Vec<Call>, context: &HandContext) -> Vec<CalcResult> {
+pub(crate) fn calculate(
+    tiles: &Vec<Tile>, calls: &Vec<Call>, context: &HandContext,
+) -> Vec<CalcResult> {
     let mut results: Vec<CalcResult> = divide(tiles)
         .into_iter()
         .filter(|d| d.is_tenpai(calls.len()))
