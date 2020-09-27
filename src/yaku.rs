@@ -70,6 +70,34 @@ const YAKUMAN_TO_CHECK: [Yakuman; 12] = [
     Yakuman::Chiihou,
 ];
 
+impl Yaku {
+    pub fn han_closed(&self) -> u8 { self.info().han_closed }
+
+    pub fn han_open(&self) -> u8 { self.info().han_open }
+
+    pub fn is_wind(&self) -> bool {
+        *self == Yaku::Ton || *self == Yaku::Nan || *self == Yaku::Sha || *self == Yaku::Pei
+    }
+
+    fn make_info(
+        han_closed: u8, han_open: u8, check_func: CheckFunc, supercedes: Vec<Yaku>,
+    ) -> YakuInfo<Yaku> {
+        YakuInfo::<Yaku> { han_closed, han_open, check_func, supercedes }
+    }
+}
+
+impl Yakuman {
+    pub fn han_closed(&self) -> u8 { self.info().han_closed }
+
+    pub fn han_open(&self) -> u8 { self.info().han_open }
+
+    fn make_info(
+        han_closed: u8, han_open: u8, check_func: CheckFunc, supercedes: Vec<Yakuman>,
+    ) -> YakuInfo<Yakuman> {
+        YakuInfo::<Yakuman> { han_closed, han_open, check_func, supercedes }
+    }
+}
+
 pub trait Checkable<T> {
     fn info(&self) -> YakuInfo<T>;
     fn check(&self, division: &Division, calls: &Vec<Call>, context: &HandContext) -> bool;
@@ -125,6 +153,7 @@ impl Checkable<Yaku> for Yaku {
         (self.info().check_func)(division, calls, context)
     }
 }
+
 impl Checkable<Yakuman> for Yakuman {
     fn info(&self) -> YakuInfo<Yakuman> {
         match self {
@@ -148,34 +177,6 @@ impl Checkable<Yakuman> for Yakuman {
 
     fn check(&self, division: &Division, calls: &Vec<Call>, context: &HandContext) -> bool {
         (self.info().check_func)(division, calls, context)
-    }
-}
-
-impl Yaku {
-    pub fn han_closed(&self) -> u8 { self.info().han_closed }
-
-    pub fn han_open(&self) -> u8 { self.info().han_open }
-
-    pub fn is_wind(&self) -> bool {
-        *self == Yaku::Ton || *self == Yaku::Nan || *self == Yaku::Sha || *self == Yaku::Pei
-    }
-
-    fn make_info(
-        han_closed: u8, han_open: u8, check_func: CheckFunc, supercedes: Vec<Yaku>,
-    ) -> YakuInfo<Yaku> {
-        YakuInfo::<Yaku> { han_closed, han_open, check_func, supercedes }
-    }
-}
-
-impl Yakuman {
-    pub fn han_closed(&self) -> u8 { self.info().han_closed }
-
-    pub fn han_open(&self) -> u8 { self.info().han_open }
-
-    fn make_info(
-        han_closed: u8, han_open: u8, check_func: CheckFunc, supercedes: Vec<Yakuman>,
-    ) -> YakuInfo<Yakuman> {
-        YakuInfo::<Yakuman> { han_closed, han_open, check_func, supercedes }
     }
 }
 
