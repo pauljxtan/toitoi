@@ -5,7 +5,7 @@ use crate::{
     types::{Call, CallType, FuReason, HandContext},
 };
 
-pub fn fu_for_division(
+pub(crate) fn fu_for_division(
     division: &Division, calls: &[Call], context: &HandContext,
 ) -> Vec<(FuReason, u8)> {
     let mut reasons: Vec<FuReason> = vec![FuReason::Base];

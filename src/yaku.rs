@@ -12,7 +12,7 @@ use std::{collections::HashSet, iter::FromIterator};
 
 type CheckFunc = fn(&Division, &Vec<Call>, &HandContext) -> bool;
 
-pub struct YakuInfo<T> {
+pub(crate) struct YakuInfo<T> {
     han_closed: u8,
     han_open: u8,
     check_func: CheckFunc,
@@ -71,10 +71,11 @@ const YAKUMAN_TO_CHECK: [Yakuman; 12] = [
 ];
 
 impl Yaku {
-    pub fn han_closed(&self) -> u8 { self.info().han_closed }
-    pub fn han_open(&self) -> u8 { self.info().han_open }
+    pub(crate) fn han_closed(&self) -> u8 { self.info().han_closed }
 
-    pub fn is_wind(&self) -> bool {
+    pub(crate) fn han_open(&self) -> u8 { self.info().han_open }
+
+    pub(crate) fn is_wind(&self) -> bool {
         *self == Yaku::Ton || *self == Yaku::Nan || *self == Yaku::Sha || *self == Yaku::Pei
     }
 
@@ -86,8 +87,9 @@ impl Yaku {
 }
 
 impl Yakuman {
-    pub fn han_closed(&self) -> u8 { self.info().han_closed }
-    pub fn han_open(&self) -> u8 { self.info().han_open }
+    pub(crate) fn han_closed(&self) -> u8 { self.info().han_closed }
+
+    pub(crate) fn han_open(&self) -> u8 { self.info().han_open }
 
     fn make_info(
         han_closed: u8, han_open: u8, check_func: CheckFunc, supercedes: Vec<Yakuman>,
@@ -96,7 +98,7 @@ impl Yakuman {
     }
 }
 
-pub trait Checkable<T> {
+pub(crate) trait Checkable<T> {
     fn info(&self) -> YakuInfo<T>;
     fn check(&self, division: &Division, calls: &Vec<Call>, context: &HandContext) -> bool;
 }
@@ -179,18 +181,20 @@ impl Checkable<Yakuman> for Yakuman {
 }
 
 /// Finds all yaku in the given hand.
-pub fn yaku_in_hand(division: &Division, calls: &Vec<Call>, context: &HandContext) -> Vec<Yaku> {
+pub(crate) fn yaku_in_hand(
+    division: &Division, calls: &Vec<Call>, context: &HandContext,
+) -> Vec<Yaku> {
     _find_in_hand(&YAKU_TO_CHECK, division, calls, context)
 }
 
 /// Finds all yakuman in the given hand.
-pub fn yakuman_in_hand(
+pub(crate) fn yakuman_in_hand(
     division: &Division, calls: &Vec<Call>, context: &HandContext,
 ) -> Vec<Yakuman> {
     _find_in_hand(&YAKUMAN_TO_CHECK, division, calls, context)
 }
 
-pub fn _find_in_hand<T: Checkable<T> + Clone + PartialEq>(
+fn _find_in_hand<T: Checkable<T> + Clone + PartialEq>(
     to_check: &[T], division: &Division, calls: &Vec<Call>, context: &HandContext,
 ) -> Vec<T> {
     let found: Vec<T> =
@@ -997,7 +1001,7 @@ mod tests {
         divide(&all_tiles)
     }
 
-    pub fn c(call_type: &str, tile: &str) -> Call {
+    fn c(call_type: &str, tile: &str) -> Call {
         Call {
             ctype: match call_type {
                 "p" => CallType::Pon,

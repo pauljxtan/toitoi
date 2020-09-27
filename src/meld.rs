@@ -3,7 +3,8 @@ use crate::{
     types::{Call, CallType},
 };
 
-pub type Meld = Vec<Tile>;
+pub(crate) type Meld = Vec<Tile>;
+
 impl Call {
     pub fn new(ctype: CallType, tile: &str) -> Call { Call { ctype, tile: tile_from_string(tile) } }
 
@@ -37,32 +38,32 @@ fn all_sequences() -> Vec<Meld> {
 
 fn all_triplets() -> Vec<Meld> { all_tiles().into_iter().map(|t| vec![t, t, t]).collect() }
 
-pub fn possible_melds(tiles: &[Tile]) -> Vec<Meld> {
+pub(crate) fn possible_melds(tiles: &[Tile]) -> Vec<Meld> {
     let mut possible_melds = possible_sequences(tiles);
     possible_melds.append(&mut possible_triplets(tiles));
     possible_melds
 }
 
-fn possible_sequences(tiles: &[Tile]) -> Vec<Meld> {
+pub(crate) fn possible_sequences(tiles: &[Tile]) -> Vec<Meld> {
     all_sequences().into_iter().filter(|ts| ts.iter().all(|t| tiles.contains(t))).collect()
 }
 
-fn possible_triplets(tiles: &[Tile]) -> Vec<Meld> {
+pub(crate) fn possible_triplets(tiles: &[Tile]) -> Vec<Meld> {
     all_triplets()
         .into_iter()
         .filter(|triplet| tiles.iter().filter(|&tile| tile == &triplet[0]).count() >= 3)
         .collect()
 }
 
-pub fn is_triplet(tiles: &[Tile]) -> bool {
+pub(crate) fn is_triplet(tiles: &[Tile]) -> bool {
     tiles.len() == 3 && tiles.iter().all(|t| *t == tiles[0])
 }
 
-pub fn is_quadruplet(tiles: &[Tile]) -> bool {
+pub(crate) fn is_quadruplet(tiles: &[Tile]) -> bool {
     tiles.len() == 4 && tiles.iter().all(|t| *t == tiles[0])
 }
 
-pub fn is_sequence(tiles: &[Tile]) -> bool {
+pub(crate) fn is_sequence(tiles: &[Tile]) -> bool {
     tiles.len() == 3
         && tiles[0].is_number()
         && tiles[0].number() <= 7
@@ -70,36 +71,36 @@ pub fn is_sequence(tiles: &[Tile]) -> bool {
         && tiles[1].next() == tiles[2]
 }
 
-pub fn is_partial_meld(tiles: &[Tile]) -> bool {
+pub(crate) fn is_partial_meld(tiles: &[Tile]) -> bool {
     is_ryanmen(&tiles) || is_penchan(&tiles) || is_kanchan(&tiles) || is_shanpon(&tiles)
 }
 
-pub fn is_ryanmen(tiles: &[Tile]) -> bool {
+pub(crate) fn is_ryanmen(tiles: &[Tile]) -> bool {
     tiles.len() == 2
         && tiles[0].is_number()
         && [1, 8, 9].iter().all(|&n| tiles[0].number() != n)
         && tiles[1] == tiles[0].next()
 }
 
-pub fn is_penchan(tiles: &[Tile]) -> bool {
+pub(crate) fn is_penchan(tiles: &[Tile]) -> bool {
     tiles.len() == 2
         && tiles[0].is_number()
         && [1, 8].iter().any(|&n| tiles[0].number() == n)
         && tiles[1] == tiles[0].next()
 }
 
-pub fn is_kanchan(tiles: &[Tile]) -> bool {
+pub(crate) fn is_kanchan(tiles: &[Tile]) -> bool {
     tiles.len() == 2
         && tiles[0].is_number()
         && [8, 9].iter().all(|&n| tiles[0].number() != n)
         && tiles[1] == tiles[0].next().next()
 }
 
-pub fn is_shanpon(tiles: &[Tile]) -> bool { tiles.len() == 2 && tiles[0] == tiles[1] }
+pub(crate) fn is_shanpon(tiles: &[Tile]) -> bool { tiles.len() == 2 && tiles[0] == tiles[1] }
 
-pub fn ryanmen_waits(tiles: &Meld) -> Vec<Tile> { vec![tiles[0].prev(), tiles[1].next()] }
+pub(crate) fn ryanmen_waits(tiles: &Meld) -> Vec<Tile> { vec![tiles[0].prev(), tiles[1].next()] }
 
-pub fn penchan_waits(tiles: &Meld) -> Vec<Tile> {
+pub(crate) fn penchan_waits(tiles: &Meld) -> Vec<Tile> {
     match tiles[0].number() {
         1 => vec![tiles[1].next()],
         8 => vec![tiles[0].prev()],
@@ -107,11 +108,13 @@ pub fn penchan_waits(tiles: &Meld) -> Vec<Tile> {
     }
 }
 
-pub fn kanchan_waits(tiles: &Meld) -> Vec<Tile> { vec![tiles[0].next()] }
+pub(crate) fn kanchan_waits(tiles: &Meld) -> Vec<Tile> { vec![tiles[0].next()] }
 
-pub fn shanpon_waits(tiles: &Meld) -> Vec<Tile> { vec![tiles[0]] }
+pub(crate) fn shanpon_waits(tiles: &Meld) -> Vec<Tile> { vec![tiles[0]] }
 
-pub fn no_open_calls(calls: &[Call]) -> bool { calls.iter().all(|c| c.ctype == CallType::Ankan) }
+pub(crate) fn no_open_calls(calls: &[Call]) -> bool {
+    calls.iter().all(|c| c.ctype == CallType::Ankan)
+}
 
 #[cfg(test)]
 mod tests {
