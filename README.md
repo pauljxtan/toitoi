@@ -1,18 +1,44 @@
 # toitoi
 
-[![Build Status](https://travis-ci.org/pauljxtan/toitoi.svg?branch=master)](https://travis-ci.org/pauljxtan/toitoi)
+[![Build
+Status](https://travis-ci.org/pauljxtan/toitoi.svg?branch=master)](https://travis-ci.org/pauljxtan/toitoi)
 
-[API docs](https://paultan.ca/toitoi/) | [Scoring demo](https://paultan.ca/toitoi-scorer-demo/)
+[API docs](https://paultan.ca/toitoi/) | [Scoring
+demo](https://paultan.ca/toitoi-scorer-demo/)
 
-A [Riichi mahjong](https://en.wikipedia.org/wiki/Japanese_Mahjong) library in Rust. Very WIP.
+A [Riichi mahjong](https://en.wikipedia.org/wiki/Japanese_Mahjong) library in
+Rust. (Very WIP.)
 
-For now, it handles most [hand scoring](https://en.wikipedia.org/wiki/Japanese_Mahjong_scoring_rules) use cases under standard rules. In addition to the tests included in this repo, the logic has also been tested on about a million [Tenhou](http://tenhou.net/) game logs, and seems to be accurate outside of super-edge cases.
+For now, it handles most [hand
+scoring](https://en.wikipedia.org/wiki/Japanese_Mahjong_scoring_rules)
+scenarios under standard rules. In addition to the tests included in this repo,
+the logic has also been tested extensively on about a million
+[Tenhou](http://tenhou.net/) game logs, and seems to be accurate outside of
+super-edge cases. While this has not yet been heavily optimized, it is already
+reasonably performant, because Rust.
 
-The plan is to eventually expand this library into a full game engine to be used for reinforcement learning and other computational experiments.
+The plan is to eventually expand this library into a full game engine to be
+potentially used for reinforcement learning and other computational
+experiments, and, well, actually playing the game itself.
 
-Here's a [demo](https://paultan.ca/toitoi-scorer-demo/) of a Wasm-based hand calculator that calls this library under the hood.
+Here's a [demo](https://paultan.ca/toitoi-scorer-demo/) of a Wasm-based hand
+calculator that uses this library under the hood.
 
-More details forthcoming... In the meantime, feel free to check out the tests for examples.
+## Running
+
+This project is built against stable Rust.
+
+Run tests:
+
+```shell
+$ make test
+```
+
+Format code:
+
+```shell
+$ make fmt
+```
 
 ## API example
 

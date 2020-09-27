@@ -999,7 +999,8 @@ fn score_tenhou_toitoi_sanshoku_doukou() {
 fn check(
     result: &ScoreResult, fu_expected: u8, fu_reasons_expected: Vec<FuReason>, han_expected: u8,
     han_reasons_expected: Vec<HanReason>, limit_expected: Limit, points_expected: Points,
-) {
+)
+{
     assert_eq!(result.fu(), fu_expected);
     check_fu_reasons(&result.fu_reasons(), fu_reasons_expected);
     assert_eq!(result.han(), han_expected);
